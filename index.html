@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment UI</title>
+  <style>
+    body, html {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+        url('banner1.jpg') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .payment-container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #2d3748;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4A5568;
+      box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
+      background: white;
+    }
+
+    button {
+      width: 100%;
+      margin: 20px 0 10px 0;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      background: #4A5568;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(74, 85, 104, 0.3);
+      background: #2D3748;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-container {
+      display: none;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .success-container.active {
+      display: block;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: #48bb78;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: white;
+    }
+
+    .success-title {
+      color: #2d3748;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .success-message {
+      color: #4a5568;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .payment-details {
+      background: rgba(74, 85, 104, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .payment-details h3 {
+      margin-top: 0;
+      color: #2d3748;
+    }
+
+    .payment-details p {
+      margin: 8px 0;
+      color: #4a5568;
+    }
+
+    .back-button {
+      background: #4A5568;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .back-button:hover {
+      background: #2D3748;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        width: 90%;
+        margin: 20px;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <!-- Payment Form -->
+    <div class="card" id="paymentCard">
+      <h2>Complete Your Payment</h2>
+      <form id="paymentForm">
+        <input type="text" name="name" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <input type="number" name="amount" placeholder="Amount (INR)" required min="1" />
+        <button type="submit" id="payButton">Pay Securely</button>
+      </form>
+    </div>
+
+    <!-- Success Page -->
+    <div class="card success-container" id="successCard">
+      <div class="success-icon">
+        <svg viewBox="0 0 20 20">
+          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+        </svg>
+      </div>
+      <h2 class="success-title">Payment Successful!</h2>
+      <p class="success-message">Thank you for your order. Your payment has been processed successfully.</p>
+
+      <div class="payment-details" id="paymentDetails">
+        <h3>Payment Details</h3>
+        <p><strong>Transaction ID:</strong> <span id="transactionId"></span></p>
+        <p><strong>Amount:</strong> ₹<span id="paidAmount"></span></p>
+        <p><strong>Date:</strong> <span id="paymentDate"></span></p>
+        <p><strong>Status:</strong> <span style="color: #48bb78;">Completed</span></p>
+      </div>
+
+      <button class="back-button" onclick="goBackToPayment()">Make Another Payment</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('paymentForm');
+    const payButton = document.getElementById('payButton');
+    const paymentCard = document.getElementById('paymentCard');
+    const successCard = document.getElementById('successCard');
+
+    function showSuccessPage(paymentData) {
+      paymentCard.style.display = 'none';
+      successCard.classList.add('active');
+      document.getElementById('transactionId').textContent = paymentData.razorpay_payment_id;
+      document.getElementById('paidAmount').textContent = paymentData.amount;
+      document.getElementById('paymentDate').textContent = new Date(paymentData.payment_date).toLocaleString();
+    }
+
+    function goBackToPayment() {
+      paymentCard.style.display = 'block';
+      successCard.classList.remove('active');
+      form.reset();
+      payButton.disabled = false;
+      payButton.textContent = 'Pay Securely';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      payButton.disabled = true;
+      payButton.textContent = 'Processing...';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const paymentData = {
+        razorpay_payment_id: 'SIM_' + Math.random().toString(36).substring(2, 10),
+        amount: data.amount,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        payment_date: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch('save_payment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(paymentData)
+        });
+
+        if (!response.ok) throw new Error('Failed to save payment');
+
+        // ✅ Show popup confirmation
+        alert('✅ Payment done successfully!');
+
+        // ✅ Show success page
+        showSuccessPage(paymentData);
+      } catch (err) {
+        alert('❌ Error: ' + err.message);
+        payButton.disabled = false;
+        payButton.textContent = 'Pay Securely';
+      }
+    });
+
+    window.goBackToPayment = goBackToPayment;
+  </script>
+</body>
+</html>

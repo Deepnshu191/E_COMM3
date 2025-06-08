@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Popular Items</title>
+  <style>
+    /* Global and body styling with full background image */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: 
+        linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)),
+        url('ban2.jpg') center/cover no-repeat fixed;
+      min-height: 100vh;
+    }
+
+    /* Back button positioned top-left OUTSIDE container */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .back-button:hover {
+      background: #34495e;
+    }
+
+    /* Container styling (with transparent white background) */
+    .container {
+      max-width: 1200px;
+      margin: 80px auto 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 10px;
+      border-radius: 10px;
+    }
+
+    .products-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .products-grid::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.3);
+      border-radius: 10px;
+    }
+
+    .products-grid::-webkit-scrollbar-thumb {
+      background: #2c3e50;
+      border-radius: 10px;
+    }
+
+    .products-grid::-webkit-scrollbar-thumb:hover {
+      background: #34495e;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.15);
+    }
+
+    .product-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+    }
+
+    .product-details {
+      flex: 1;
+    }
+
+    .product-title {
+      font-weight: bold;
+      margin: 0 0 8px;
+      color: #2c3e50;
+      font-size: 1.2rem;
+    }
+
+    .product-price {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 80px 20px 20px;
+        padding: 15px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .product-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .product-image {
+        width: 150px;
+        height: 150px;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Back button outside the container -->
+<button class="back-button" onclick="goBack()">← Back</button>
+
+<section id="products" class="container">
+  <h2 class="section-title">Our Popular Items</h2>
+  <div class="products-grid"></div>
+</section>
+
+<script>
+  const products = [
+    {
+      img: "ban3.jpg",
+      alt: "Artisan Sourdough Bread",
+      title: "Artisan Sourdough Bread",
+      price: "₹50",
+      desc: "Handcrafted artisan sourdough bread with the a crisp crust , tangy flavor and airy crumb - naturally leavened for perfect taste and texture."
+    },
+    {
+      img: "img6.jpg",
+      alt: "Chocolate Croissants",
+      title: "Chocolate cake",
+      price: "₹500",
+      desc: "Indulgent , moist chocolate cake layered with rich , creamy chocolate frosting. made with premium cocoa for a deep , satisfying flavour."
+    },
+    {
+      img: "banner5.jpg",
+      alt: "Cinnamon Rolls",
+      title: "Cinnamon Rolls",
+      price: "₹20",
+      desc: "Soft, fluffy rolls with a perfect spiral of cinnamon sugar, topped with our signature cream cheese frosting."
+    },
+    {
+      img: "m4.jpg",
+      alt: "Apple Pie",
+      title: "Apple Pie",
+      price: "₹20",
+      desc: "Made with locally sourced Granny Smith apples, cinnamon, and our buttery, flaky crust. Serves 8."
+    },
+    {
+      img: "m8.jpg",
+      alt: "Mint Lemonade",
+      title: "Mint Lemonade",
+      price: "₹120",
+      desc: "Refreshing Lemon drink with mint leaves , perfect for summer . Hydrate , cools , and revitalizes with a zesty and herbal twist."
+    },
+    {
+      img: "m6.jpg",
+      alt: "Mixed Berry Smoothie",
+      title: "Mixed Berry Smoothie",
+      price: "₹120",
+      desc: "Packed with raspberries, blackberries and blueberries. A vibrant, fruity drink loaded with antioxidants, flavor and creamy berry goodness."
+    },
+    {
+      img: "m7.jpg",
+      alt: "Caramel Latte",
+      title: "Caramel Latte",
+      price: "₹120",
+      desc: "A Smooth coffee with steamed milk and rich caramel drizzle. Warm, cozy and a delightful treat for coffee lovers."
+    },
+    {
+      img: "banner2.jpg",
+      alt: "painu Chocolat",
+      title: "painu Chocolat",
+      price: "₹50",
+      desc: "Flaky, buttery pastry filled with rich dark chocolate, perfect for breakfast or snack. A French bakery classic loved worldwide."
+    },
+    {
+      img: "m5.jpg",
+      alt: "Cucumber Smoothie",
+      title: "Cucumber Smoothie",
+      price: "₹120",
+      desc: "A creamy blend of cucumber and milk or yogurt. light, soothing, and detoxifying - great for a healthy, cooling treat."
+    },
+    {
+      img: "banner1.jpg",
+      alt: "cookies",
+      title: "cookies",
+      price: "₹50",
+      desc: "Freshly baked cookies with crispy edges and soft centers, bursting with chocolate chips, nuts and love in every delicious bite."
+    },
+    {
+      img: "img7.jpg",
+      alt: "cakes",
+      title: "cakes",
+      price: "₹20",
+      desc: "Moist, fluffy cakes in rich flavors, layered with creamy frosting. perfect for every celebration or sweet craving, baked to perfection."
+    },
+    {
+      img: "banner11.jpg",
+      alt: "coffee",
+      title: "Coffee",
+      price: "₹20",
+      desc: "Rich, aromatic coffee brewed to perfection. Energizing and comforting, made from premium beans, flavorful experience every sip."
+    }
+  ];
+
+  const grid = document.querySelector('.products-grid');
+
+  function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.alt}" class="product-image" />
+      <div class="product-details">
+        <h3 class="product-title">${product.title}</h3>
+        <p class="product-price">${product.price}</p>
+        <p class="product-description">${product.desc}</p>
+      </div>
+    `;
+    return card;
+  }
+
+  products.forEach(product => {
+    grid.appendChild(createProductCard(product));
+  });
+
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  }
+</script>
+
+</body>
+</html>
